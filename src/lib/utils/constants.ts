@@ -5,13 +5,19 @@ export const US_ALGOLIA_ID = 'U3B6GR4UA3';
 export const US_ALGOLIA_KEY = 'c4da8be7fd29f0f5bfa42920b0a99dc7';
 
 /** Algolia key for getting US games with a query */
-export const QUERIED_US_ALGOLIA_KEY = '6efbfb0f8f80defc44895018caf77504';
+export const QUERIED_US_ALGOLIA_KEY_NEW = 'a29c6927638bfd8cee23993e51e721c9';
+
+/** Algolia key for getting US games with a query */
+export const QUERIED_US_ALGOLIA_KEY_OLD = '6efbfb0f8f80defc44895018caf77504';
 
 /** URL for getting US Games */
 export const US_GET_GAMES_URL = `https://${US_ALGOLIA_ID}-dsn.algolia.net/1/indexes/*/queries`;
 
-/** URL for getting Queried US Games */
-export const QUERIED_US_GET_GAMES_URL = `https://${US_ALGOLIA_ID}-dsn.algolia.net/1/indexes/ncom_game_en_us/query`;
+/** New URL for getting Queried US Games */
+export const QUERIED_US_GET_GAMES_URL_NEW = `https://${US_ALGOLIA_ID}-dsn.algolia.net/1/indexes/store_all_products_en_us/query`;
+
+/** Old URL for getting Queried US games, this still exists and has additional properties which get merged with those from the new URL */
+export const QUERIED_US_GET_GAMES_URL_OLD = `https://${US_ALGOLIA_ID}-dsn.algolia.net/1/indexes/ncom_game_en_us/query`;
 
 /**
  * Sample game code for US store
@@ -91,6 +97,28 @@ export const JP_GAME_CODE_REGEX = /HAC(\w{4})/;
  * @internal
  */
 export const JP_NSUID_REGEX = /\d{14}/;
+
+/** Algolia ID for getting BR games */
+export const BR_ALGOLIA_ID = 'U3B6GR4UA3';
+
+/** Algolia Key for getting US games */
+export const BR_ALGOLIA_KEY = 'c4da8be7fd29f0f5bfa42920b0a99dc7';
+
+/** Algolia key for getting BR games with a query */
+export const QUERIED_BR_ALGOLIA_KEY = 'c4da8be7fd29f0f5bfa42920b0a99dc7';
+
+/** URL for getting BR Games */
+export const BR_GET_GAMES_URL = `https://${BR_ALGOLIA_ID}-dsn.algolia.net/1/indexes/*/queries`;
+
+/** URL for getting Queried BR Games */
+export const QUERIED_BR_GET_GAMES_URL = `https://${BR_ALGOLIA_ID}-dsn.algolia.net/1/indexes/ncom_game_pt_br/query`;
+
+/** @internal Request headers for BR games */
+export const BR_ALGOLIA_HEADERS = {
+  'Content-Type': 'application/json',
+  'X-Algolia-API-Key': BR_ALGOLIA_KEY,
+  'X-Algolia-Application-Id': BR_ALGOLIA_ID
+};
 
 /** URL for getting game prices */
 export const PRICE_GET_URL = 'https://api.ec.nintendo.com/v1/price';

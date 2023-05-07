@@ -8,7 +8,7 @@ import type { GameEU, GameJP, GameUS } from '../utils/interfaces';
  * @param region Region code
  * @returns The 14-digits NSUID
  */
-export const parseNSUID = (game: GameUS | GameEU | GameJP, region: Region): string | null => {
+export function parseNSUID(game: GameUS | GameEU | GameJP, region: Region): string | null {
   switch (region) {
     case Region.EUROPE:
       return (game as GameEU).nsuid_txt ? (game as GameEU).nsuid_txt[0] : null;
@@ -20,4 +20,4 @@ export const parseNSUID = (game: GameUS | GameEU | GameJP, region: Region): stri
     case Region.AMERICAS:
       return (game as GameUS).nsuid;
   }
-};
+}

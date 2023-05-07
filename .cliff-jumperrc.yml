@@ -1,0 +1,3 @@
+name: nintendo-switch-eshop
+packagePath: .
+commitMessageTemplate: 'chore(release): release {{new-version}}'

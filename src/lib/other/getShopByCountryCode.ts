@@ -1,4 +1,5 @@
-import { countries, Country } from 'country-data';
+import { Result } from '@sapphire/result';
+import { countries, type Country } from 'country-data';
 import type { Region } from '../utils/constants';
 import type { EShop, PriceResponse } from '../utils/interfaces';
 import { getPrices } from './getPrices';
@@ -11,37 +12,31 @@ import { getPrices } from './getPrices';
  * @param region A region id that will be appended in the final shop object for filtering purposes.
  * @returns A list of shop objects with country code, name and default currency.
  */
-export const getShopsByCountryCodes = async (countryCodes: string[], gameCode: string, region: Region): Promise<EShop[]> => {
-  try {
-    const countryList: Country[] = countryCodes.map((code: string) => countries.all.filter((country: Country) => country.alpha2 === code)[0]);
-    const shops: PriceResponse[] = [];
+export async function getShopsByCountryCodes(countryCodes: string[], gameCode: string, region: Region): Promise<EShop[]> {
+  const countryList: Country[] = countryCodes.map((code: string) => countries.all.filter((country: Country) => country.alpha2 === code)[0]);
+  const shops: PriceResponse[] = [];
 
-    for (const country of countryList) {
-      try {
-        const response = await getPrices(country.alpha2, gameCode);
-        response.country = country;
-        shops.push(response);
-      } catch (err) {
-        continue;
-      }
+  for (const country of countryList) {
+    const response = await Result.fromAsync(getPrices(country.alpha2, gameCode));
+
+    if (response.isErr()) {
+      continue;
     }
 
-    const activeShops = shops.filter((shop: PriceResponse) => shop && shop.prices && shop.prices.length && shop.prices[0].regular_price);
-    const eShops = activeShops.map((shop: PriceResponse) => ({
-      code: shop.country.alpha2,
-      country: shop.country.name,
-      currency: shop.prices[0].regular_price.currency,
-      region
-    }));
-
-    if (!eShops.length) throw new Error('ACTIVE_SHOPS_Rate_Limit');
-
-    return eShops;
-  } catch (err) {
-    if (/(?:ACTIVE_SHOPS_Rate_Limit)/i.test((err as Error).message)) {
-      throw new Error('Looks like you ran into a rate limit while getting price data, please do not spam the Nintendo servers.');
-    }
-
-    throw err as Error;
+    const unwrappedResponse = response.unwrap();
+    unwrappedResponse.country = country;
+    shops.push(unwrappedResponse);
   }
-};
+
+  const activeShops = shops.filter((shop: PriceResponse) => shop && shop.prices && shop.prices.length && shop.prices[0].regular_price);
+  const eShops = activeShops.map((shop: PriceResponse) => ({
+    code: shop.country.alpha2,
+    country: shop.country.name,
+    currency: shop.prices[0].regular_price.currency,
+    region
+  }));
+
+  if (!eShops.length) throw new Error('ACTIVE_SHOPS_Rate_Limit');
+
+  return eShops;
+}

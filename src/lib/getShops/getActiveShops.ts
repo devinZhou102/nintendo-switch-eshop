@@ -11,7 +11,7 @@ import { getShopsEurope } from './getShopsEurope';
  *
  * @returns A list of shop objects with country code, name and default currency.
  */
-export const getActiveShops = async (): Promise<EShop[]> => {
+export async function getActiveShops(): Promise<EShop[]> {
   try {
     const shopsAmerica = await getShopsAmerica();
     const shopsAsia = await getShopsAsia();
@@ -21,4 +21,4 @@ export const getActiveShops = async (): Promise<EShop[]> => {
   } catch (err) {
     throw err as Error;
   }
-};
+}

@@ -11,7 +11,7 @@ import type { EShop } from '../utils/interfaces';
  *
  * @returns A list of shop objects with country code, name and default currency.
  */
-export const getShopsEurope = async (): Promise<EShop[]> => {
+export async function getShopsEurope(): Promise<EShop[]> {
   return getShopsByCountryCodes(
     regions.northernEurope.countries.concat(
       regions.southernEurope.countries,
@@ -23,4 +23,4 @@ export const getShopsEurope = async (): Promise<EShop[]> => {
     EU_GAME_CHECK_CODE,
     Region.EUROPE
   );
-};
+}
